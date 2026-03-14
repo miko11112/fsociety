@@ -89,10 +89,17 @@ async def start_attack_logic(phone, runs, update, context):
 # --- ОБРАБОТЧИКИ ---
 
 async def attack_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # ПРОВЕРКА "СИСТЕМА ЗАНЯТА" УДАЛЕНА ПОЛНОСТЬЮ 🚀
+    
     if len(context.args) < 2:
-        await update.message.reply_text("Используй: <code>/attack 77071234567 2</code>", parse_mode='HTML')
+        await update.message.reply_text("Используй: <code>/attack [номер] [круги]</code>", parse_mode='HTML')
         return
-    asyncio.create_task(start_attack_logic(context.args[0], context.args[1], update, context))
+
+    phone = context.args[0]
+    runs = context.args[1]
+    
+    # Просто запускаем новую задачу в фоне, не глядя на старые
+    asyncio.create_task(start_attack_logic(phone, runs, update, context))
 
 async def stop_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     state.stop_requested = True
