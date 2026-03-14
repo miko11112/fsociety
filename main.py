@@ -89,9 +89,6 @@ async def start_attack_logic(phone, runs, update, context):
 # --- ОБРАБОТЧИКИ ---
 
 async def attack_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if state.is_running:
-        await update.message.reply_text("⚠️ Система занята другой задачей.")
-        return
     if len(context.args) < 2:
         await update.message.reply_text("Используй: <code>/attack 77071234567 2</code>", parse_mode='HTML')
         return
