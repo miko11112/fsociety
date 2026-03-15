@@ -1,166 +1,52 @@
 {
-    "services": {
-      "NaimiSMS": {
-        "url": "https://naimi.kz/api/app/pub/login/code",
-        "data": { "phone": "%PHONE%", "type": "sms" },
-        "phone_pattern": "+ABCDEFGHIJK",
-        "timeout": 60
-      },
-      "NaimiCall": {
-        "url": "https://naimi.kz/api/app/pub/login/code",
-        "data": { "phone": "%PHONE%", "type": "call" },
-        "phone_pattern": "+ABCDEFGHIJK",
-        "timeout": 60
-      },
-      "Pandora": {
-        "url": "https://pandora.kz/forgotpass/",
-        "data": { "email": "", "phone": "%PHONE%", "method": "phone" },
-        "phone_pattern": "+A (BCD) EFG-HI-JK",
-        "timeout": 15
-      },
-      "MoneyMan": {
-        "url": "https://moneyman.kz/secure/rest/registration/step1/confirmMobilePhone",
-        "data": { "mobilePhone": "%PHONE%" },
-        "phone_pattern": "+A(BCD)EFG-HI-JK",
-        "timeout": 60
-      },
-      "MyCar": {
-        "url": "https://sso.mycar.kz/auth/login/",
-        "data": { "phone_number": "%PHONE%" },
-        "phone_pattern": "+ABCDEFGHIJK",
-        "timeout": 60
-      },
-      "Apteka": {
-        "url": "https://api.apteka.ru/Auth/Auth_Code",
-        "data": { "phone": "%PHONE%", "u": "U" },
-        "phone_pattern": "+A (BCD) EFG-HI-JK",
-        "timeout": 120
-      },
-      "Bilim": {
-        "url": "https://login.bilimland.kz/api/v1/registration",
-        "data": { "phone": "%PHONE%" },
-        "phone_pattern": "+A (BCD) EFG-HI-JK",
-        "timeout": 90
-      },
-      "CleverMarket": {
-        "url": "https://clevermarket.kz/auth/code",
-        "data": { "phoneNumber": "%PHONE%" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 90
-      },
-      "CreditPlusSMS": {
-        "url": "https://api.creditplus.kz/user/get-token",
-        "data": { "fingerprint": {}, "login": "%PHONE%", "re-captcha-action": "REGISTRATION", "re-captcha-token": "" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 120
-      },
-      "AcreditSMS": {
-        "url": "https://api.acredit.kz/user/get-token",
-        "data": { "authMethod": "check", "fingerprint": {}, "login": "%PHONE%" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 120
-      },
-      "CreditBarSMS": {
-        "url": "https://cabinet.creditbar.kz/rest/auth/sms",
-        "data": { "phone": "%PHONE%" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 200
-      },
-      "Soso": {
-        "url": "https://www.soso.kz/api/landing-form",
-        "data": { "amount": 100000, "phone": "%PHONE%", "locale": "ru" },
-        "phone_pattern": "+ABCDEFGHIJK",
-        "timeout": 15
-      },
-      "Solva.kz": {
-        "url": "https://solva.kz/secure/rest/registration/step1/confirmMobilePhone",
-        "data": { "mobilePhone": "%PHONE%" },
-        "phone_pattern": "+A(BCD)EFG-HI-JK",
-        "timeout": 60
-      },
-      "AloAlo": {
-        "url": "https://alo-alo.kz/api/shop-api/auth/register",
-        "data": { "phone": "%PHONE%", "sms": "" },
-        "phone_pattern": "+ABCDEFGHIJK",
-        "timeout": 60
-      },
-      "Appteka": {
-        "url": "https://appteka.kz/api/customers/otp",
-        "data": { "phone": "%PHONE%" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 30
-      },
-      "Aptekaplus": {
-        "url": "https://aptekaplus.kz/api/auth/v1/code",
-        "data": { "username": "%PHONE%" },
-        "phone_pattern": "+ABCDEFGHIJK",
-        "timeout": 180
-      },
-      "JusanMarket": {
-        "url": "https://jmart.kz/gw/user/v1/auth/sign-in-by-otp",
-        "data": { "mobile_phone": "%PHONE%" },
-        "phone_pattern": "+A(BCD)EFG-HI-JK",
-        "timeout": 120
-      },
-      "Only": {
-        "url": "https://admin.only.kz/api/auth/code/",
-        "data": { "phone": "%PHONE%", "code": "", "name": "", "_method": "POST" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 60
-      },
-      "KorzinaVDom": {
-        "url": "https://api.korzinavdom.kz/client/auth/smsRequest",
-        "data": { "phone": "%PHONE%" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 60
-      },
-      "CreditBar": {
-        "url": "https://cabinet.creditbar.kz/rest/auth/sms",
-        "data": { "phone": "%PHONE%", "insurance_agreement": true, "additional_services_agreement": true },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 180
-      },
-      "Solva": {
-        "url": "https://solva.kz/secure/rest/registration/step1/confirmMobilePhone",
-        "data": { "mobilePhone": "%PHONE%" },
-        "phone_pattern": "+A(BCD)EFG-HI-JK",
-        "timeout": 60
-      },
-      "Bilimland": {
-        "url": "https://login.bilimland.kz/api/v1/registration",
-        "data": { "phone": "%PHONE%" },
-        "phone_pattern": "+A (BCD) EFG-HI-JK",
-        "timeout": 60
-      },
-      "Chinchin": {
-        "url": "https://shop.chinchin.kz/ajax/sms.php",
-        "data": { "phone": "%PHONE%", "t": "ss" },
-        "phone_pattern": "+A(BCD)+EFG-HIJK",
-        "timeout": 60
-      },
-      "Alo-alo": {
-        "url": "https://alo-alo.kz/api/shop-api/auth/register",
-        "data": { "phone": "%PHONE%" },
-        "phone_pattern": "+A (BCD) EFG-HIJK",
-        "timeout": 60
-      },
-      "Daryn": {
-        "url": "https://api.daryn.online/api/v1/users/register/send-code",
-        "data": { "phone": "%PHONE%" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 120
-      },
-      "KolesaKZ": {
-        "url": "https://kolesa.kz/ms/rum/v1/send",
-        "data": { "phone": "%PHONE%", "type": "sms" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 60
-      },
-      "Marwin_KZ": {
-        "url": "https://www.marwin.kz/account/Auth/MobilePrelogin",
-        "data": { "phone": "%PHONE%" },
-        "phone_pattern": "ABCDEFGHIJK",
-        "timeout": 60
-      }
-    }
+  "services": {
+    "AcreditSMS": { "url": "https://api.acredit.kz/user/get-token", "data": { "authMethod": "check", "fingerprint": {}, "login": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 120 },
+    "Activ_KZ": { "url": "https://www.activ.kz/api/v1/auth/send-otp-by-sms", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Alem_Zaim": { "url": "https://backendalem.com/user/user/registration", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Alo-alo": { "url": "https://alo-alo.kz/api/shop-api/auth/register", "data": { "phone": "%PHONE%" }, "phone_pattern": "+A (BCD) EFG-HIJK", "timeout": 60 },
+    "AloAlo": { "url": "https://alo-alo.kz/api/shop-api/auth/register", "data": { "phone": "%PHONE%", "sms": "" }, "phone_pattern": "+ABCDEFGHIJK", "timeout": 60 },
+    "Appteka": { "url": "https://appteka.kz/api/customers/otp", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 30 },
+    "Apteka": { "url": "https://api.apteka.ru/Auth/Auth_Code", "data": { "phone": "%PHONE%", "u": "U" }, "phone_pattern": "+A (BCD) EFG-HI-JK", "timeout": 120 },
+    "Aptekaplus": { "url": "https://aptekaplus.kz/api/auth/v1/code", "data": { "username": "%PHONE%" }, "phone_pattern": "+ABCDEFGHIJK", "timeout": 180 },
+    "Bilim": { "url": "https://login.bilimland.kz/api/v1/registration", "data": { "phone": "%PHONE%" }, "phone_pattern": "+A (BCD) EFG-HI-JK", "timeout": 90 },
+    "Bilimland": { "url": "https://login.bilimland.kz/api/v1/registration", "data": { "phone": "%PHONE%" }, "phone_pattern": "+A (BCD) EFG-HI-JK", "timeout": 60 },
+    "Cashbee_KZ": { "url": "https://cgateway.cashbee.kz/api/cSendVerifyCode?phone=%PHONE%", "data": {}, "phone_pattern": "ABCDEFGHIJK", "timeout": 30 },
+    "CaspianNews": { "url": "https://caspiannews.com/api/v1/subscribe", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Chinchin": { "url": "https://shop.chinchin.kz/ajax/sms.php", "data": { "phone": "%PHONE%", "t": "ss" }, "phone_pattern": "+A(BCD)+EFG-HIJK", "timeout": 60 },
+    "CleverMarket": { "url": "https://clevermarket.kz/auth/code", "data": { "phoneNumber": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 90 },
+    "CreditBar": { "url": "https://cabinet.creditbar.kz/rest/auth/sms", "data": { "phone": "%PHONE%", "insurance_agreement": true, "additional_services_agreement": true }, "phone_pattern": "ABCDEFGHIJK", "timeout": 180 },
+    "CreditBarSMS": { "url": "https://cabinet.creditbar.kz/rest/auth/sms", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 200 },
+    "CreditPlusSMS": { "url": "https://api.creditplus.kz/user/get-token", "data": { "fingerprint": {}, "login": "%PHONE%", "re-captcha-action": "REGISTRATION", "re-captcha-token": "" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 120 },
+    "Daryn": { "url": "https://api.daryn.online/api/v1/users/register/send-code", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 120 },
+    "FreedomMobile": { "url": "https://api.fmobile.kz/api/v1/auth/login", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "HomeCredit_Start": { "url": "https://loans.home.kz/wcl/api/cis-service/v1/openapi/start-application", "data": { "phoneNumber": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "HomeCredit_Update": { "url": "https://loans.home.kz/wcl/api/cis-service/v1/openapi/update-application", "data": { "phoneNumber": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "JusanMarket": { "url": "https://jmart.kz/gw/user/v1/auth/sign-in-by-otp", "data": { "mobile_phone": "%PHONE%" }, "phone_pattern": "+A(BCD)EFG-HI-JK", "timeout": 120 },
+    "KolesaKZ": { "url": "https://kolesa.kz/ms/rum/v1/send", "data": { "phone": "%PHONE%", "type": "sms" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "KorzinaVDom": { "url": "https://api.korzinavdom.kz/client/auth/smsRequest", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Magnum": { "url": "https://magnum.kz/api/v1/auth/login", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Marwin_KZ": { "url": "https://www.marwin.kz/account/Auth/MobilePrelogin", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Mechta": { "url": "https://www.mechta.kz/api/v2/send-sms", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Mobizon_KZ": { "url": "https://mobizon.kz/service/user/register?api=v1&output=json", "data": { "userId": "%PHONE%", "userPhone": "%PHONE%", "type": "1" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 30 },
+    "MoneyMan": { "url": "https://moneyman.kz/secure/rest/registration/step1/confirmMobilePhone", "data": { "mobilePhone": "%PHONE%" }, "phone_pattern": "+A(BCD)EFG-HI-JK", "timeout": 60 },
+    "MyCar": { "url": "https://sso.mycar.kz/auth/login/", "data": { "phone_number": "%PHONE%" }, "phone_pattern": "+ABCDEFGHIJK", "timeout": 60 },
+    "NaimiCall": { "url": "https://naimi.kz/api/app/pub/login/code", "data": { "phone": "%PHONE%", "type": "call" }, "phone_pattern": "+ABCDEFGHIJK", "timeout": 60 },
+    "NaimiSMS": { "url": "https://naimi.kz/api/app/pub/login/code", "data": { "phone": "%PHONE%", "type": "sms" }, "phone_pattern": "+ABCDEFGHIJK", "timeout": 60 },
+    "Only": { "url": "https://admin.only.kz/api/auth/code/", "data": { "phone": "%PHONE%", "code": "", "name": "", "_method": "POST" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "P1SMS_KZ": { "url": "https://admin.p1sms.kz/api/verification/sendCode", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Pandora": { "url": "https://pandora.kz/forgotpass/", "data": { "email": "", "phone": "%PHONE%", "method": "phone" }, "phone_pattern": "+A (BCD) EFG-HI-JK", "timeout": 15 },
+    "QaryzZaim": { "url": "https://account.qaryzzaim.kz/api/v1/signup", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Satu_KZ": { "url": "https://my.satu.kz/remote/auth/register_customer?locale=ru", "data": { "phone": "%PHONE%", "type": "customer" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "SigmaSMS": { "url": "https://user.sigmasms.ru/api/registration", "data": { "phone": "%PHONE%", "type": "registration" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Solva": { "url": "https://solva.kz/secure/rest/registration/step1/confirmMobilePhone", "data": { "mobilePhone": "%PHONE%" }, "phone_pattern": "+A(BCD)EFG-HI-JK", "timeout": 60 },
+    "Solva.kz": { "url": "https://solva.kz/secure/rest/registration/step1/confirmMobilePhone", "data": { "mobilePhone": "%PHONE%" }, "phone_pattern": "+A(BCD)EFG-HI-JK", "timeout": 60 },
+    "Soso": { "url": "https://www.soso.kz/api/landing-form", "data": { "amount": 100000, "phone": "%PHONE%", "locale": "ru" }, "phone_pattern": "+ABCDEFGHIJK", "timeout": 15 },
+    "Sulpak_KZ": { "url": "https://www.sulpak.kz/Login/SmsCodeSignIn", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Technodom": { "url": "https://www.technodom.kz/api/v1/auth/send-otp", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Tele2_KZ": { "url": "https://tele2.kz/api/v1/auth/otp/send", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Tengebai_KZ": { "url": "https://tengebai.kz/api/auth/register-start", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Tengo_KZ": { "url": "https://api.tengo.kz/web/public/client/phone/sms-code", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "Vlife_KZ": { "url": "https://vlife.kz/api/v1/auth/otp/send", "data": { "phone": "%PHONE%" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 },
+    "WhiteWind_KZ": { "url": "https://shop.kz/auth/ajax/send_code.php", "data": { "phone": "%PHONE%", "type": "login" }, "phone_pattern": "ABCDEFGHIJK", "timeout": 60 }
   }
+}
